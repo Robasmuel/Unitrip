@@ -1,18 +1,18 @@
 package com.example;
 
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 400, 300);
-        stage.setTitle("JavaFX Maven Example");
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/example/registro.fxml"));
+
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        stage.setTitle("Registro de Usuario");
         stage.setScene(scene);
         stage.show();
     }
