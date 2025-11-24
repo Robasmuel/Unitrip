@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.Controller.RutaController"
+      spacing="12" alignment="CENTER"
+      prefWidth="450"
+      style="-fx-background-color: linear-gradient(to bottom, #E3F2FD, #BBDEFB);
+             -fx-padding: 25;
+             -fx-background-radius: 10;">
+
+    <Label text="Publicar Ruta"
+           style="-fx-font-size: 22;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #0D47A1;" />
+
+    <Separator prefWidth="350"/>
+
+    <TextField fx:id="origenField"
+               promptText="Origen (ej. Javeriana - Entrada 7)" />
+
+    <TextArea fx:id="paradasField"
+              promptText="Lugares principales por donde pasa (separados por coma)"
+              prefRowCount="3"
+              wrapText="true" />
+
+    <TextField fx:id="destinoField"
+               promptText="Destino (ej. Cedritos)" />
+
+    <TextField fx:id="horaField"
+               promptText="Hora de salida (ej. 7:30 AM)" />
+
+    <TextField fx:id="cuposField"
+               promptText="Cupos disponibles" />
+
+    <Button text="Publicar ruta"
+            onAction="#guardarRuta"
+            style="-fx-background-color: #1976D2;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 8;
+                   -fx-padding: 8 20;" />
+
+    <Label fx:id="mensajeLabel" textFill="red" />
+
+</VBox>

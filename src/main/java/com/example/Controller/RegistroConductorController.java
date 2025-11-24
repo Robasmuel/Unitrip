@@ -4,13 +4,18 @@ import com.example.modelo.Vehiculo;
 
 import java.io.IOException;
 
+import com.example.App;
 import com.example.modelo.Usuario;
 import com.example.modelo.UsuariosRepositorio;
 import com.example.modelo.VehiculosRepositorio;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 
 public class RegistroConductorController {
@@ -73,6 +78,13 @@ public class RegistroConductorController {
 
     mensajeLabel.setStyle("-fx-text-fill: green;");
     mensajeLabel.setText(" vehículo registrado con exito.");
+
+     FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/example/ruta.fxml"));
+    Parent root = loader.load();
+    Stage stage = (Stage) mensajeLabel.getScene().getWindow();
+    stage.setScene(new Scene(root));
+    stage.setTitle("Publicar ruta");
+    stage.show();
 
       
     }

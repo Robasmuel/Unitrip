@@ -1,2 +1,4 @@
 ADF123;toyota;rojo;5;pepe@javeriana.edu.co
 SDR123;BMW;VERDE;2;pepe@javeriana.edu.co
+DFT456;KIA;verde;4;marta@javeriana.edu.co
+LOK456;kia;rojo;4;meme@javeriana.edu.co
