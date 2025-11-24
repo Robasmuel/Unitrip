@@ -12,7 +12,7 @@ public class VehiculosRepositorio {
 
     // Ruta del archivo donde vas a guardar los vehículos
     // Puedes cambiarla si quieres otra carpeta
-    private static final String FILE_PATH = "vehiculos.txt";
+    private static final String FILE_PATH = "vehiculos.csv";
 
     public void guardarVehiculo(Vehiculo v) {
         // 1. Guardar en memoria
