@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.Controller.RegistroConductorController"
+      spacing="12" alignment="CENTER" prefWidth="420"
+      style="-fx-background-color: linear-gradient(to bottom, #E3F2FD, #BBDEFB);
+             -fx-padding: 25;
+             -fx-background-radius: 10;">
+
+    <Label text="Datos del Vehículo"
+           style="-fx-font-size: 22;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #0D47A1;" />
+
+    <Separator prefWidth="300"/>
+
+    <TextField fx:id="placaField" promptText="Placa del vehículo" />
+    <TextField fx:id="modeloField" promptText="Modelo" />
+    <TextField fx:id="colorField" promptText="Color" />
+    <TextField fx:id="capacidadField" promptText="Capacidad de pasajeros" />
+
+    <Button text="Guardar"
+            onAction="#guardarConductor"
+            style="-fx-background-color: #1976D2;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 8;
+                   -fx-padding: 8 20;" />
+
+    <Label fx:id="mensajeLabel" textFill="red"/>
+
+</VBox>

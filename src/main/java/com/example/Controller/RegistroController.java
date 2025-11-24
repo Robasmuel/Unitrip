@@ -3,7 +3,11 @@ package com.example.Controller;
 import com.example.modelo.Usuario;
 import com.example.modelo.UsuariosRepositorio;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 public class RegistroController {
 
@@ -36,24 +40,44 @@ public class RegistroController {
             mensajeLabel.setText("Completa todos los campos.");
             return;
         }
-
-        if(!correo.endsWith("@correo.udistrital.edu.co")) {
+        correo = correoField.getText().trim();
+        if(!correo.endsWith("@javeriana.edu.co")) {
             mensajeLabel.setText("El correo debe ser institucional.");
             return;
         }
 
-        if(!pass.equals(confirm)) {
-            mensajeLabel.setText("Las contraseñas no coinciden.");
-            return;
+         if ("Pasajero".equals(rol)) {
+            try {
+                Usuario u = new Usuario(nombre, correo, pass, rol, carrera);
+                repository.guardarUsuario(u);
+                mensajeLabel.setStyle("-fx-text-fill: green;");
+                mensajeLabel.setText("Registro exitoso. Verifica tu correo institucional.");
+            } catch (Exception e) {
+                mensajeLabel.setText("Error al registrar usuario.");
+            }
         }
 
-        try {
-            Usuario u = new Usuario(nombre, correo, pass, rol, carrera);
-            repository.guardarUsuario(u);
-            mensajeLabel.setStyle("-fx-text-fill: green;");
-            mensajeLabel.setText("Registro exitoso. Verifica tu correo institucional.");
-        } catch (Exception e) {
-            mensajeLabel.setText("Error al registrar usuario.");
+        // Si es conductor, vas a la pantalla de vehículo
+        if ("Conductor".equals(rol)) {
+            abrirPantallaConductor(nombre, correo, pass, carrera);
         }
+    }
+
+    private void abrirPantallaConductor(String nombre, String correo, String pass, String carrera) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/registroConductor.fxml"));
+            Parent root = loader.load();
+
+            RegistroConductorController controller = loader.getController();
+            controller.recibirDatosUsuario(nombre, correo, pass, carrera);
+
+            Stage stage = (Stage) nombreField.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Datos del vehículo");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            mensajeLabel.setText("No se pudo abrir la pantalla de conductor.");
+        }   
     }
 }
