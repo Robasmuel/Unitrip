@@ -1,27 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
-<?import javafx.collections.FXCollections?>
-<?import javafx.collections.ObservableList?>
 <?import javafx.scene.layout.*?>
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.Controller.RegistroController"
-      spacing="10" alignment="CENTER" prefWidth="400">
+      spacing="12" alignment="CENTER" prefWidth="420"
+      style="-fx-background-color: linear-gradient(to bottom, #E3F2FD, #BBDEFB);
+             -fx-padding: 25;
+             -fx-background-radius: 10;">
 
-    <Label text="Registro de Usuario" style="-fx-font-size: 20;" />
+    <Label text="Registro de Usuario"
+           style="-fx-font-size: 22;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #0D47A1;" />
 
-    <TextField fx:id="nombreField" promptText="Nombre completo" />
-    <TextField fx:id="correoField" promptText="Correo institucional" />
-    <PasswordField fx:id="contraseñaField" promptText="Contraseña" />
-    <PasswordField fx:id="confirmacionField" promptText="Confirmar contraseña" />
+    <Separator prefWidth="300"/>
 
-    <ComboBox fx:id="rolBox" />
+    <TextField fx:id="nombreField" promptText="Nombre completo"
+               style="-fx-background-radius: 8;
+                      -fx-border-radius: 8;
+                      -fx-border-color: #90CAF9;
+                      -fx-padding: 6;" />
 
+    <TextField fx:id="correoField" promptText="Correo institucional"
+               style="-fx-background-radius: 8;
+                      -fx-border-radius: 8;
+                      -fx-border-color: #90CAF9;
+                      -fx-padding: 6;" />
 
-    <TextField fx:id="carreraField" promptText="Carrera o programa" />
+    <PasswordField fx:id="contraseñaField" promptText="Contraseña"
+                   style="-fx-background-radius: 8;
+                          -fx-border-radius: 8;
+                          -fx-border-color: #90CAF9;
+                          -fx-padding: 6;" />
 
-    <Button text="Registrarme" onAction="#registrarUsuario"/>
-    <Label fx:id="mensajeLabel" textFill="red"/>
+    <PasswordField fx:id="confirmacionField" promptText="Confirmar contraseña"
+                   style="-fx-background-radius: 8;
+                          -fx-border-radius: 8;
+                          -fx-border-color: #90CAF9;
+                          -fx-padding: 6;" />
+
+    <ComboBox fx:id="rolBox"
+              promptText="Selecciona tu rol"
+              style="-fx-background-radius: 8;
+                     -fx-border-radius: 8;
+                     -fx-border-color: #90CAF9;
+                     -fx-padding: 4;" />
+
+    <TextField fx:id="carreraField" promptText="Carrera o programa"
+               style="-fx-background-radius: 8;
+                      -fx-border-radius: 8;
+                      -fx-border-color: #90CAF9;
+                      -fx-padding: 6;" />
+
+    <Button text="Registrarme" onAction="#registrarUsuario"
+            style="-fx-background-color: #1976D2;
+                   -fx-text-fill: white;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 8;
+                   -fx-padding: 8 20;
+                   -fx-cursor: hand;" />
+
+    <Label fx:id="mensajeLabel" textFill="red"
+           style="-fx-font-size: 12;" />
 
 </VBox>
