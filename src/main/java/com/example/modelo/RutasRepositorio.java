@@ -81,4 +81,45 @@ public class RutasRepositorio {
         }
         return rutasFiltradas;
     }
+
+    public List<Ruta> buscarRutas(String filtro, UsuariosRepositorio usuariosRepo) {
+    List<Ruta> resultado = new ArrayList<>();
+    if (filtro == null) filtro = "";
+    filtro = quitarAcentos(filtro.toLowerCase());
+
+    try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+        String linea;
+        while ((linea = br.readLine()) != null) {
+            Ruta r = parseRuta(linea);
+            if (r == null) continue;
+
+            Usuario conductor = usuariosRepo.buscarPorCorreo(r.getCorreoConductor());
+            String carrera = (conductor != null) ? conductor.getCarrera() : "";
+
+            // Concatenamos todos los campos para buscar
+            String texto = (r.getDestino() + " " +
+                r.getOrigen() + " " +
+                r.getParadas() + " " +
+                r.getHora() + " " +
+                r.getCupos() + " " +           // ← NUEVO
+                r.getCorreoConductor() + " " +
+                carrera).toLowerCase();
+            texto = quitarAcentos(texto);
+
+            if (texto.contains(filtro)) {
+                resultado.add(r);
+            }
+        }
+    } catch (Exception e) {
+        System.out.println("Error al buscar rutas: " + e.getMessage());
+    }
+
+    return resultado;
+}
+
+// ----- eliminar acentos -----
+private String quitarAcentos(String texto) {
+    return java.text.Normalizer.normalize(texto, java.text.Normalizer.Form.NFD)
+            .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+}
 }

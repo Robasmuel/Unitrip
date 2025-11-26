@@ -2,6 +2,8 @@ package com.example.Controller;
 
 import com.example.modelo.Ruta;
 import com.example.modelo.RutasRepositorio;
+import com.example.modelo.UsuariosRepositorio;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -69,15 +71,17 @@ public class RutasPasajeroController {
     }
 
     private void cargarRutas(String filtro) {
-        List<Ruta> rutasFiltradas;
+    UsuariosRepositorio usuariosRepo = new UsuariosRepositorio();
 
-        if (filtro == null || filtro.trim().isEmpty()) {
-            rutasFiltradas = rutasRepo.obtenerTodasLasRutas();
-        } else {
-            rutasFiltradas = rutasRepo.obtenerRutasPorDestino(filtro);
-        }
+    List<Ruta> rutasFiltradas;
 
-        rutasData.clear();
-        rutasData.addAll(rutasFiltradas);
+    if (filtro == null || filtro.trim().isEmpty()) {
+        rutasFiltradas = rutasRepo.obtenerTodasLasRutas();
+    } else {
+        rutasFiltradas = rutasRepo.buscarRutas(filtro.trim(), usuariosRepo);
     }
+
+    rutasData.clear();
+    rutasData.addAll(rutasFiltradas);
+}
 }
