@@ -57,7 +57,13 @@ public class RutasPasajeroController {
         columnaDestino.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDestino()));
         columnaOrigen.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrigen()));
         columnaHora.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHora()));
-        columnaConductor.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCorreoConductor()));
+        columnaConductor.setCellValueFactory(cellData -> {
+    UsuariosRepositorio usuariosRepo = new UsuariosRepositorio();
+    String nombre = usuariosRepo.obtenerNombrePorCorreo(
+            cellData.getValue().getCorreoConductor()
+    );
+    return new SimpleStringProperty(nombre);
+});
         columnaCupos.setCellValueFactory(cellData ->
                 new SimpleStringProperty(String.valueOf(cellData.getValue().getCupos())));
 

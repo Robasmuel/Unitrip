@@ -46,7 +46,7 @@
                 <TableColumn fx:id="columnaOrigen" text="Origen" prefWidth="150"/>
                 <TableColumn fx:id="columnaHora" text="Hora" prefWidth="100"/>
                 <TableColumn fx:id="columnaCupos" text="Cupos" prefWidth="80"/>
-                <TableColumn fx:id="columnaConductor" text="Conductor (Correo)" prefWidth="250"/>
+                <TableColumn fx:id="columnaConductor" text="Conductor" prefWidth="250"/>
             </columns>
             <placeholder>
                 <Label text="No hay rutas disponibles o que coincidan con la búsqueda."/>

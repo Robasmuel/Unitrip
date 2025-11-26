@@ -38,4 +38,9 @@ public class UsuariosRepositorio {
 
         return null;
     }
+
+    public String obtenerNombrePorCorreo(String correoBuscado) {
+    Usuario u = buscarPorCorreo(correoBuscado);
+    return (u != null) ? u.getNombre() : "Desconocido";
+}
 }
