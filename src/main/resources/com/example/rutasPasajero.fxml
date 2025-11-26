@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.Controller.RutasPasajeroController"
+      spacing="15" alignment="TOP_CENTER"
+      style="-fx-background-color: #E3F2FD; -fx-padding: 25;">
+
+    <Label text="Bienvenido Pasajero"
+           style="-fx-font-size: 26;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #0D47A1;"/>
+
+    <Separator prefWidth="300" />
+
+    <Button text="Ver Rutas Disponibles"
+            onAction="#mostrarRutas"
+            style="-fx-background-color: #4CAF50;
+                   -fx-text-fill: white;
+                   -fx-font-size: 18;
+                   -fx-padding: 15 30;
+                   -fx-background-radius: 10;" />
+
+    <VBox fx:id="contenedorRutas"
+          spacing="10"
+          alignment="TOP_LEFT"
+          VBox.vgrow="ALWAYS"
+          managed="false"
+          visible="false"
+          prefWidth="800">
+
+        <Label text="Filtrar Rutas por Destino"
+               style="-fx-font-size: 18; -fx-font-weight: bold;"/>
+
+        <TextField fx:id="campoBusquedaDestino"
+                   promptText="Escribe el destino (ej. Cedritos)"
+                   prefWidth="400"
+                   style="-fx-padding: 10; -fx-border-color: #1976D2; -fx-border-radius: 5;"/>
+
+        <TableView fx:id="tablaRutas" VBox.vgrow="ALWAYS" prefHeight="500">
+            <columns>
+                <TableColumn fx:id="columnaDestino" text="Destino" prefWidth="150"/>
+                <TableColumn fx:id="columnaOrigen" text="Origen" prefWidth="150"/>
+                <TableColumn fx:id="columnaHora" text="Hora" prefWidth="100"/>
+                <TableColumn fx:id="columnaCupos" text="Cupos" prefWidth="80"/>
+                <TableColumn fx:id="columnaConductor" text="Conductor (Correo)" prefWidth="250"/>
+            </columns>
+            <placeholder>
+                <Label text="No hay rutas disponibles o que coincidan con la búsqueda."/>
+            </placeholder>
+        </TableView>
+    </VBox>
+
+</VBox>
