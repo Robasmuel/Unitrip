@@ -1,11 +1,10 @@
 package com.example.Controller;
 
-import com.example.modelo.Vehiculo;
+import com.example.LogicaNegocio.ServiceConductor;
 
 import java.io.IOException;
 
 import com.example.App;
-import com.example.modelo.Usuario;
 import com.example.modelo.UsuariosRepositorio;
 import com.example.modelo.VehiculosRepositorio;
 
@@ -44,51 +43,36 @@ public class RegistroConductorController {
 
     @FXML
     private void guardarConductor() throws IOException {
+
         String placa = placaField.getText().trim();
         String modelo = modeloField.getText().trim();
         String color = colorField.getText().trim();
         String capacidad = capacidadField.getText().trim();
-        int cap;
 
-        if (placa.isEmpty() || modelo.isEmpty() || color.isEmpty() || capacidad.isEmpty()) {
-            mensajeLabel.setStyle("-fx-text-fill: red;");
-            mensajeLabel.setText("Completa todos los campos del vehículo.");
-            return;
-        }
-        // 2. Validar formato de matrícula (ejemplo: ABC123)
-        if (!placa.toUpperCase().matches("[A-Z]{3}[0-9]{3}")) {
-            mensajeLabel.setStyle("-fx-text-fill: red;");
-            mensajeLabel.setText("La matrícula debe tener formato ABC123.");
-            return;
-        }
         try {
-            cap = Integer.parseInt(capacidad);
-        } catch (NumberFormatException e) {
+            ServiceConductor service = new ServiceConductor();
+            service.guardarConductor(
+                    placa, modelo, color, capacidad,
+                    nombre, correo, pass, carrera
+            );
+
+        } catch (Exception e) {
             mensajeLabel.setStyle("-fx-text-fill: red;");
-            mensajeLabel.setText("La capacidad debe ser un número.");
+            mensajeLabel.setText(e.getMessage());
             return;
         }
 
-        Vehiculo veh = new Vehiculo(placa, modelo, color, cap, correo);
-        vehiculosRepo.guardarVehiculo(veh);
-
-        Usuario u = new Usuario(nombre, correo, pass, "Conductor", carrera);
-        usuariosRepo.guardarUsuario(u);
-
-
+        // Cambiar pantalla
         FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/example/ruta.fxml"));
         Parent root = loader.load();
 
-
         RutaController rutaController = loader.getController();
-
-
         rutaController.setCorreoConductor(correo);
-
 
         Stage stage = (Stage) mensajeLabel.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Publicar ruta y buscar viajes");
         stage.show();
     }
+
 }
