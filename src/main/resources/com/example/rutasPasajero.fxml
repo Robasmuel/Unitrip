@@ -16,6 +16,14 @@
 
     <Separator prefWidth="300" />
 
+<Button text="⬅ Volver"
+        onAction="#volverAtras"
+        style="-fx-background-color: #D32F2F;
+               -fx-text-fill: white;
+               -fx-font-weight: bold;
+               -fx-padding: 8 20;
+               -fx-background-radius: 8;" />
+               
     <Button text="Ver Rutas Disponibles"
             onAction="#mostrarRutas"
             style="-fx-background-color: #4CAF50;

@@ -8,10 +8,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox; // Importar VBox
+import javafx.stage.Stage;
+
 import java.util.List;
 
 public class RutasPasajeroController {
@@ -39,6 +44,25 @@ public class RutasPasajeroController {
         configurarTabla();
         // Nota: contenedorRutas ya está oculto por el FXML
     }
+
+@FXML
+private void volverAtras() {
+    try {
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/example/registro.fxml")
+        );
+
+        Parent root = loader.load();
+        Stage stage = (Stage) tablaRutas.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+
+    } catch (Exception e) {
+        System.out.println("ERROR AL VOLVER:");
+        e.printStackTrace();
+    }
+}
+
 
     @FXML
     private void mostrarRutas() {
