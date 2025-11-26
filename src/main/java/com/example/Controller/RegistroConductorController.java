@@ -31,16 +31,16 @@ public class RegistroConductorController {
     @FXML private TextField capacidadField;
     @FXML private Label mensajeLabel;
 
-   private VehiculosRepositorio vehiculosRepo = new VehiculosRepositorio();
-  
+    private VehiculosRepositorio vehiculosRepo = new VehiculosRepositorio();
+
     private UsuariosRepositorio usuariosRepo = new UsuariosRepositorio();
 
-   public void recibirDatosUsuario(String nombre, String correo, String pass, String carrera) {
-    this.nombre = nombre;
-    this.correo = correo;
-    this.pass = pass;
-    this.carrera = carrera;
-}
+    public void recibirDatosUsuario(String nombre, String correo, String pass, String carrera) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.pass = pass;
+        this.carrera = carrera;
+    }
 
     @FXML
     private void guardarConductor() throws IOException {
@@ -48,44 +48,47 @@ public class RegistroConductorController {
         String modelo = modeloField.getText().trim();
         String color = colorField.getText().trim();
         String capacidad = capacidadField.getText().trim();
-         int cap;
+        int cap;
 
         if (placa.isEmpty() || modelo.isEmpty() || color.isEmpty() || capacidad.isEmpty()) {
             mensajeLabel.setStyle("-fx-text-fill: red;");
             mensajeLabel.setText("Completa todos los campos del vehículo.");
             return;
-
         }
-         // 2. Validar formato de matrícula (ejemplo: ABC123)
+        // 2. Validar formato de matrícula (ejemplo: ABC123)
         if (!placa.toUpperCase().matches("[A-Z]{3}[0-9]{3}")) {
             mensajeLabel.setStyle("-fx-text-fill: red;");
             mensajeLabel.setText("La matrícula debe tener formato ABC123.");
             return;
         }
-    try {
-        cap = Integer.parseInt(capacidad);
-    } catch (NumberFormatException e) {
-        mensajeLabel.setStyle("-fx-text-fill: red;");   
-        mensajeLabel.setText("La capacidad debe ser un número.");
-        return;
-    }
+        try {
+            cap = Integer.parseInt(capacidad);
+        } catch (NumberFormatException e) {
+            mensajeLabel.setStyle("-fx-text-fill: red;");
+            mensajeLabel.setText("La capacidad debe ser un número.");
+            return;
+        }
 
-    Vehiculo veh = new Vehiculo(placa, modelo, color, cap, correo);
-    vehiculosRepo.guardarVehiculo(veh);
+        Vehiculo veh = new Vehiculo(placa, modelo, color, cap, correo);
+        vehiculosRepo.guardarVehiculo(veh);
 
-     Usuario u = new Usuario(nombre, correo, pass, "Conductor", carrera);
-    usuariosRepo.guardarUsuario(u);
+        Usuario u = new Usuario(nombre, correo, pass, "Conductor", carrera);
+        usuariosRepo.guardarUsuario(u);
 
-    mensajeLabel.setStyle("-fx-text-fill: green;");
-    mensajeLabel.setText(" vehículo registrado con exito.");
 
-     FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/example/ruta.fxml"));
-    Parent root = loader.load();
-    Stage stage = (Stage) mensajeLabel.getScene().getWindow();
-    stage.setScene(new Scene(root));
-    stage.setTitle("Publicar ruta");
-    stage.show();
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("/com/example/ruta.fxml"));
+        Parent root = loader.load();
 
-      
+
+        RutaController rutaController = loader.getController();
+
+
+        rutaController.setCorreoConductor(correo);
+
+
+        Stage stage = (Stage) mensajeLabel.getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Publicar ruta y buscar viajes");
+        stage.show();
     }
 }

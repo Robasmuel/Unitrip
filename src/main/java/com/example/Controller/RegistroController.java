@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class RegistroController {
 
     @FXML private TextField nombreField;
@@ -46,12 +48,30 @@ public class RegistroController {
             return;
         }
 
-         if ("Pasajero".equals(rol)) {
+        // Si es Pasajero, guarda el usuario y redirige a la pantalla de búsqueda
+        if ("Pasajero".equals(rol)) {
             try {
                 Usuario u = new Usuario(nombre, correo, pass, rol, carrera);
                 repository.guardarUsuario(u);
                 mensajeLabel.setStyle("-fx-text-fill: green;");
                 mensajeLabel.setText("Registro exitoso. Verifica tu correo institucional.");
+
+                // --- REDIRECCIÓN DEL PASAJERO A LA VISTA DE BÚSQUEDA ---
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/RutasPasajero.fxml"));
+                Parent root = loader.load();
+
+                RutasPasajeroController controller = loader.getController();
+                controller.setCorreoUsuario(correo); // Pasa el correo del pasajero
+
+                Stage stage = (Stage) nombreField.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Buscar Viajes - Pasajero");
+                stage.show();
+                // -----------------------------------------------------------
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                mensajeLabel.setText("Error al cargar la pantalla de rutas.");
             } catch (Exception e) {
                 mensajeLabel.setText("Error al registrar usuario.");
             }
@@ -78,6 +98,6 @@ public class RegistroController {
         } catch (Exception e) {
             e.printStackTrace();
             mensajeLabel.setText("No se pudo abrir la pantalla de conductor.");
-        }   
+        }
     }
 }
