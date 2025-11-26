@@ -1,27 +1,19 @@
 package com.example.Controller;
 
+import com.example.LogicaNegocio.RutaService;
+import com.example.LogicaNegocio.UsuarioService;
 import com.example.modelo.Ruta;
-import com.example.modelo.RutasRepositorio;
-import com.example.modelo.UsuariosRepositorio;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox; // Importar VBox
-import javafx.stage.Stage;
+import javafx.scene.control.*;
 
 import java.util.List;
 
 public class RutasPasajeroController {
 
-    @FXML private VBox contenedorRutas;
     @FXML private TextField campoBusquedaDestino;
     @FXML private TableView<Ruta> tablaRutas;
     @FXML private TableColumn<Ruta, String> columnaDestino;
@@ -30,88 +22,49 @@ public class RutasPasajeroController {
     @FXML private TableColumn<Ruta, String> columnaCupos;
     @FXML private TableColumn<Ruta, String> columnaConductor;
 
-    private RutasRepositorio rutasRepo = new RutasRepositorio();
-    private ObservableList<Ruta> rutasData = FXCollections.observableArrayList();
-    private String correoUsuario;
+    private final RutaService rutaService = new RutaService();
+    private final UsuarioService usuarioService = new UsuarioService();
 
-    public void setCorreoUsuario(String correo) {
-        this.correoUsuario = correo;
-    }
+    private ObservableList<Ruta> rutasData = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-
         configurarTabla();
-        // Nota: contenedorRutas ya está oculto por el FXML
     }
-
-@FXML
-private void volverAtras() {
-    try {
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/com/example/registro.fxml")
-        );
-
-        Parent root = loader.load();
-        Stage stage = (Stage) tablaRutas.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-
-    } catch (Exception e) {
-        System.out.println("ERROR AL VOLVER:");
-        e.printStackTrace();
-    }
-}
-
 
     @FXML
     private void mostrarRutas() {
-
-        contenedorRutas.setVisible(true);
-        contenedorRutas.setManaged(true);
-
-
         cargarRutas(null);
         configurarFiltroBusqueda();
     }
 
-
-
     private void configurarTabla() {
-        columnaDestino.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDestino()));
-        columnaOrigen.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getOrigen()));
-        columnaHora.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getHora()));
-        columnaConductor.setCellValueFactory(cellData -> {
-    UsuariosRepositorio usuariosRepo = new UsuariosRepositorio();
-    String nombre = usuariosRepo.obtenerNombrePorCorreo(
-            cellData.getValue().getCorreoConductor()
-    );
-    return new SimpleStringProperty(nombre);
-});
-        columnaCupos.setCellValueFactory(cellData ->
-                new SimpleStringProperty(String.valueOf(cellData.getValue().getCupos())));
+        columnaDestino.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getDestino()));
+        columnaOrigen.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getOrigen()));
+        columnaHora.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getHora()));
+
+        columnaConductor.setCellValueFactory(c ->
+                new SimpleStringProperty(usuarioService.obtenerNombrePorCorreo(
+                        c.getValue().getCorreoConductor()
+                ))
+        );
+
+        columnaCupos.setCellValueFactory(c ->
+                new SimpleStringProperty(String.valueOf(c.getValue().getCupos()))
+        );
 
         tablaRutas.setItems(rutasData);
     }
 
     private void configurarFiltroBusqueda() {
-        campoBusquedaDestino.textProperty().addListener((observable, oldValue, newValue) -> {
-            cargarRutas(newValue);
-        });
+        campoBusquedaDestino.textProperty().addListener((obs, oldVal, newVal) -> cargarRutas(newVal));
     }
 
     private void cargarRutas(String filtro) {
-    UsuariosRepositorio usuariosRepo = new UsuariosRepositorio();
+        List<Ruta> lista = (filtro == null || filtro.isEmpty()) ?
+                rutaService.obtenerTodas() :
+                rutaService.buscarRutasCompletas(filtro);
 
-    List<Ruta> rutasFiltradas;
-
-    if (filtro == null || filtro.trim().isEmpty()) {
-        rutasFiltradas = rutasRepo.obtenerTodasLasRutas();
-    } else {
-        rutasFiltradas = rutasRepo.buscarRutas(filtro.trim(), usuariosRepo);
+        rutasData.setAll(lista);
     }
-
-    rutasData.clear();
-    rutasData.addAll(rutasFiltradas);
-}
 }
